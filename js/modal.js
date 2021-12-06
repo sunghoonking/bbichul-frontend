@@ -62,7 +62,7 @@ function sign_up() {
 
     $.ajax({
         type: 'POST',
-        url: `http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/signup`,
+        url: `https://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/signup`,
         contentType: "application/json",
         data: JSON.stringify(info),
         success: function (response) {
@@ -91,7 +91,7 @@ function login() {
     }
     $.ajax({
         type: 'POST',
-        url: `http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/login`,
+        url: `https://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/login`,
         contentType: "application/json",
         data: JSON.stringify(info),
         success: function (response) {
@@ -132,7 +132,7 @@ function nickname_check() {
     }
     $.ajax({
         type: "POST",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/check",
+        url: "https://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/check",
         contentType: 'application/json',
         data: JSON.stringify(nick_name),
         success: function (response) {
