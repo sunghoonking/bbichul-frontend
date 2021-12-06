@@ -62,7 +62,7 @@ function sign_up() {
 
     $.ajax({
         type: 'POST',
-        url: `/signup`,
+        url: `http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/signup`,
         contentType: "application/json",
         data: JSON.stringify(info),
         success: function (response) {
@@ -91,7 +91,7 @@ function login() {
     }
     $.ajax({
         type: 'POST',
-        url: `/login`,
+        url: `http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/login`,
         contentType: "application/json",
         data: JSON.stringify(info),
         success: function (response) {
