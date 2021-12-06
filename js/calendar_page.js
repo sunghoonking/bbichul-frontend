@@ -108,7 +108,7 @@ function getInfo() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: "/calendars/info",
+        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/info",
         contentType: "application/json",
         async: false, //전역변수에 값을 저장하기 위해 동기 방식으로 전환,
         data: {},
@@ -174,7 +174,7 @@ function updateText() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: "/calendars/memo",
+        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/calendars/memo",
         contentType: "application/json",
         data: JSON.stringify(doc),
         success: function (response) {
@@ -197,7 +197,7 @@ function clickedDayGetMemo(obj) {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: `/calendars/memo?dateData=${btn_year_month_day}&calendarType=${selected_cal_now}`,
+        url: `http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/calendars/memo?dateData=${btn_year_month_day}&calendarType=${selected_cal_now}`,
         // data: {date_give: btn_year_month_day, select_cal_give: selected_cal_now},
         success: function (response) {
             console.log(response);
@@ -230,7 +230,7 @@ function addCalender() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: "/calendars/option",
+        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/calendars/option",
         contentType: "application/json",
         data: JSON.stringify(doc),
         success: function (response) {
@@ -276,7 +276,7 @@ function getMemo() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: `/calendars/option?calendarType=${selected_cal_now}`,
+        url: `http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/calendars/option?calendarType=${selected_cal_now}`,
         // data: {calendarType: selected_cal_now},
         success: function (response) {
 

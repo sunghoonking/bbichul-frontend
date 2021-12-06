@@ -28,7 +28,7 @@ $(document).ready(function () {
 function get_progressbar() {
     $.ajax({
         type: "POST",
-        url: "team/progressbar",
+        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.comteam/progressbar",
         success: function (response) {
             console.log(response)
             let percent = response['percent']
@@ -49,7 +49,7 @@ function get_progressbar() {
 function teamCheck() {
     $.ajax({
         type: "GET",
-        url: `/team`,
+        url: `http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/team`,
         success: function (response) {
             if (response == "아직 소속된 팀이 없습니다.") {
                 $('.team-exist').hide()
@@ -84,7 +84,7 @@ function createTeam() {
     } else {
         $.ajax({
             type: "POST",
-            url: "/team",
+            url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/team",
             contentType: "application/json",
             data: JSON.stringify(teamname),
             success: function (response) {
@@ -116,7 +116,7 @@ function invite_team() {
     } else {
         $.ajax({
             type: "POST",
-            url: "/team/signup",
+            url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/team/signup",
             contentType: "application/json",
             data: JSON.stringify(teamname),
             success: function (response) {
@@ -148,7 +148,7 @@ function teamname_check() {
     } else {
         $.ajax({
             type: "POST",
-            url: "/team/checkname",
+            url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/team/checkname",
             contentType: "application/json",
             data: JSON.stringify(name),
             success: function (response) {
@@ -179,7 +179,7 @@ $('#create-team-close').on('click',function() {
 function showtask() {
     $.ajax({
         type: "GET",
-        url: "/team/task",
+        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/team/task",
         success: function (response) {
             get_progressbar()
             for (let i = 0; i < response.length; i++) {
@@ -212,7 +212,7 @@ $(document).ready(function () {
            let teamtask = {task : task}
            $.ajax({
                type: "POST",
-               url: "/team/task",
+               url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/team/task",
                contentType: "application/json",
                data: JSON.stringify(teamtask),
                success: function (response) {
@@ -234,7 +234,7 @@ function deletetask(id) {
     let taskId = {id:id}
     $.ajax({
         type: "POST",
-        url: `/team/deletetask`,
+        url: `http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/team/deletetask`,
         contentType: "application/json",
         data: JSON.stringify(taskId),
         success: function () {
@@ -248,7 +248,7 @@ function changedone(id) {
     let taskId = {id:id}
     $.ajax({
         type: "POST",
-        url: `/team/changetask`,
+        url: `http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/team/changetask`,
         contentType: "application/json",
         data: JSON.stringify(taskId),
         success: function () {
@@ -262,7 +262,7 @@ function checkstatus() {
     let status = "check-in"
     $.ajax({
         type: "GET",
-        url: "/team/status",
+        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/team/status",
         success: function (response) {
             for (let i = 0; i < response.length; i++) {
                 let nick_name = response[i]['username']

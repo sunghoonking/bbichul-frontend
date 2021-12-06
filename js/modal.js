@@ -32,8 +32,8 @@ $('#signup_password_eye').on("mousedown", function(){
 function main_login_check() {
     if(localStorage.getItem("token") == null){
         alert('로그인 해주세요')
-        location.href ="/";
-    } else { location.href = "/main_page.html"; }
+        location.href ="index.html";
+    } else { location.href = "main_page.html"; }
 }
 
 
@@ -67,7 +67,7 @@ function sign_up() {
         data: JSON.stringify(info),
         success: function (response) {
             alert("회원가입이 완료되었습니다!!");
-            location.href = '/';
+            location.href = 'index.html';
         },
         error: function (error){
             alert("중복된 아이디가 있습니다")
@@ -98,7 +98,7 @@ function login() {
             alert("로그인완료")
             localStorage.setItem("token", response['token']);
             localStorage.setItem("username", response['username']);
-            location.href = '/';
+            location.href = 'index.html';
 
         },
         error: function (error){
@@ -112,7 +112,7 @@ function log_out() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     alert('로그아웃 되었습니다')
-    location.href ="/";
+    location.href ="index.html";
 }
 
 // 회원가입시 닉네임 중복확인 기능
@@ -132,7 +132,7 @@ function nickname_check() {
     }
     $.ajax({
         type: "POST",
-        url: "/check",
+        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/check",
         contentType: 'application/json',
         data: JSON.stringify(nick_name),
         success: function (response) {
