@@ -50,7 +50,7 @@ function post_goal_modal() {
     if (days >= 0) {
             $.ajax({
                 type: "PUT",
-                url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/goal",
+                url: "https://api.bbichul.shop/goal",
                 data: JSON.stringify(json),
                 contentType: "application/json",
                 success: function (response) {
@@ -66,7 +66,7 @@ function post_goal_modal() {
 function get_goal_modal() {
     $.ajax({
         type: "GET",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/goal",
+        url: "https://api.bbichul.shop/goal",
         contentType: "application/json",
         data: {
         },
@@ -100,7 +100,7 @@ function post_resolution_modal() {
     let json = {"content": content};
     $.ajax({
         type: "PUT",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/resolution",
+        url: "https://api.bbichul.shop/resolution",
         data: JSON.stringify(json),
         contentType: "application/json",
         success: function (response) {
@@ -113,7 +113,7 @@ function post_resolution_modal() {
 function get_resolution_modal() {
     $.ajax({
         type: "GET",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/resolution",
+        url: "https://api.bbichul.shop/resolution",
         data: {},
         contentType: "application/json",
         success: function (response) {
@@ -128,7 +128,7 @@ function post_nickname_modal() {
     console.log(changed_nickname)
     $.ajax({
         type: "POST",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/nickname-modal",
+        url: "https://api.bbichul.shop/nickname-modal",
         headers: {
             Authorization:  getCookie('access_token')
         },
@@ -150,7 +150,7 @@ function post_nickname_modal() {
 function get_nickname_modal() {
     $.ajax({
         type: "GET",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/nickname-modal",
+        url: "https://api.bbichul.shop/nickname-modal",
         headers: {
             Authorization:  getCookie('access_token')
         },
@@ -166,7 +166,7 @@ function get_nickname_modal() {
 function get_user_team() {
     $.ajax({
         type: "GET",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/user-team",
+        url: "https://api.bbichul.shop/user-team",
         headers: {
             Authorization:  getCookie('access_token')
         },
@@ -197,7 +197,7 @@ function post_check_password() {
     let password = $('#now-password').val()
     $.ajax({
         type: "POST",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/check-password",
+        url: "https://api.bbichul.shop/check-password",
         headers: {
             Authorization:  getCookie('access_token')
         },
@@ -221,7 +221,7 @@ function post_new_password() {
     let password = $('#new-password').val()
     $.ajax({
         type: "POST",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/new-password",
+        url: "https://api.bbichul.shop/new-password",
         headers: {
             Authorization:  getCookie('access_token')
         },
@@ -251,7 +251,7 @@ function withdrawal() {
 
     $.ajax({
         type: "POST",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/status",
+        url: "https://api.bbichul.shop/status",
         contentType: 'application/json',
         data: JSON.stringify(start),
 
@@ -284,7 +284,7 @@ function my_info() {
     let goal_hour = $("select[name=year]").val()
     $.ajax({
         type: "GET",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/my-info",
+        url: "https://api.bbichul.shop/my-info",
         headers: {
             Authorization:  getCookie('access_token')
         },
@@ -313,7 +313,7 @@ function post_study_time_graph() {
 
     $.ajax({
         type: "POST",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/line-graph",
+        url: "https://api.bbichul.shop/line-graph",
         contentType: "application/json",
         data: JSON.stringify(json),
         success: function (response) {
@@ -368,7 +368,7 @@ function post_weekly_avg_graph() {
     };
     $.ajax({
         type: "POST",
-        url: "http://bbichulapp-env.eba-beprmxpy.ap-northeast-2.elasticbeanstalk.com/bar-graph",
+        url: "https://api.bbichul.shop/bar-graph",
         contentType: "application/json",
         data: JSON.stringify(json),
         success: function (response) {
