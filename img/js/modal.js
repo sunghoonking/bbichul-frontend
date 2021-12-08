@@ -32,8 +32,8 @@ $('#signup_password_eye').on("mousedown", function(){
 function main_login_check() {
     if(sessionStorage.getItem("token") == null){
         alert('로그인 해주세요')
-        location.href ="index.html";
-    } else { location.href = "main_page.html"; }
+        location.href ="/";
+    } else { location.href = "/main_page.html"; }
 }
 
 
@@ -62,12 +62,12 @@ function sign_up() {
 
     $.ajax({
         type: 'POST',
-        url: `https://api.bbichul.shop/api/users/signup`,
+        url: `/signup`,
         contentType: "application/json",
         data: JSON.stringify(info),
         success: function (response) {
             alert("회원가입이 완료되었습니다!!");
-            location.href = 'index.html';
+            location.href = '/';
         },
         error: function (error){
             alert("중복된 아이디가 있습니다")
@@ -91,14 +91,14 @@ function login() {
     }
     $.ajax({
         type: 'POST',
-        url: `https://api.bbichul.shop/api/users/login`,
+        url: `/login`,
         contentType: "application/json",
         data: JSON.stringify(info),
         success: function (response) {
             alert("로그인완료")
             sessionStorage.setItem("token", response['token']);
             sessionStorage.setItem("username", response['username']);
-            location.href = 'index.html';
+            location.href = '/';
 
         },
         error: function (error){
@@ -109,9 +109,11 @@ function login() {
 
 //로그아웃
 function log_out() {
+    // sessionStorage.removeItem('token');
+    // sessionStorage.removeItem('username');
     sessionStorage.clear()
     alert('로그아웃 되었습니다')
-    location.href ="index.html";
+    location.href ="/";
 }
 
 // 회원가입시 닉네임 중복확인 기능
@@ -131,7 +133,7 @@ function nickname_check() {
     }
     $.ajax({
         type: "POST",
-        url: "https://api.bbichul.shop/api/users/check",
+        url: "/check",
         contentType: 'application/json',
         data: JSON.stringify(nick_name),
         success: function (response) {

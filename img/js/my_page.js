@@ -50,7 +50,7 @@ function post_goal_modal() {
     if (days >= 0) {
             $.ajax({
                 type: "PUT",
-                url: "https://api.bbichul.shop/api/users/goal",
+                url: "/goal",
                 data: JSON.stringify(json),
                 contentType: "application/json",
                 success: function (response) {
@@ -66,7 +66,7 @@ function post_goal_modal() {
 function get_goal_modal() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.shop/api/users/goal",
+        url: "/goal",
         contentType: "application/json",
         data: {
         },
@@ -100,7 +100,7 @@ function post_resolution_modal() {
     let json = {"content": content};
     $.ajax({
         type: "PUT",
-        url: "https://api.bbichul.shop/api/users/resolution",
+        url: "/resolution",
         data: JSON.stringify(json),
         contentType: "application/json",
         success: function (response) {
@@ -113,7 +113,7 @@ function post_resolution_modal() {
 function get_resolution_modal() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.shop/api/users/resolution",
+        url: "/resolution",
         data: {},
         contentType: "application/json",
         success: function (response) {
@@ -122,33 +122,32 @@ function get_resolution_modal() {
         }
     })
 }
-// 닉네임 변경
 
-// function post_nickname_modal() {
-//     let username = $("#nickname").val()
-//     let json = {"username": username}
-//
-//     $.ajax({
-//         type: "POST",
-//         url: "https://api.bbichul.site/api/nickname-modal",
-//         contentType: "application/json",
-//         data: JSON.stringify(json),
-//         success: function (response) {
-//             if (response['msg'] == '성공') {
-//                 get_nickname_modal()
-//                 $('#nickname-close').click()
-//             }else if (response['msg']) {
-//                 alert(response['msg'])
-//                 $("#nickname").val('')
-//             }
-//         }
-//     })
-// }
+function post_nickname_modal() {
+    let username = $("#nickname").val()
+    let json = {"username": username}
+
+    $.ajax({
+        type: "POST",
+        url: "/nickname-modal",
+        contentType: "application/json",
+        data: JSON.stringify(json),
+        success: function (response) {
+            if (response['msg'] == '성공') {
+                get_nickname_modal()
+                $('#nickname-close').click()
+            }else if (response['msg']) {
+                alert(response['msg'])
+                $("#nickname").val('')
+            }
+        }
+    })
+}
 
 function get_nickname_modal() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.shop/api/nickname-modal",
+        url: "/nickname-modal",
         contentType: "application/json",
         data: {},
         success: function (response) {
@@ -158,28 +157,26 @@ function get_nickname_modal() {
     })
 }
 
-// 팀 소속 확인 기능
-
-// function get_user_team() {
-//     $.ajax({
-//         type: "GET",
-//         url: "https://api.bbichul.site/api/user-team",
-//         headers: {
-//             Authorization:  getCookie('access_token')
-//         },
-//         data: {
-//         },
-//         success: function (response) {
-//             let user_team = response['user_team']
-//             if (response['msg'] == 'team_exist') {
-//                 $(".team-list").append(`${user_team}`)
-//                 console.log(user_team)
-//             } else if (response['msg'] == 'no_team') {
-//                 $(".team-list").append(`아직 팀이 없습니다.`)
-//             }
-//         }
-//     })
-// }
+function get_user_team() {
+    $.ajax({
+        type: "GET",
+        url: "/user-team",
+        headers: {
+            Authorization:  getCookie('access_token')
+        },
+        data: {
+        },
+        success: function (response) {
+            let user_team = response['user_team']
+            if (response['msg'] == 'team_exist') {
+                $(".team-list").append(`${user_team}`)
+                console.log(user_team)
+            } else if (response['msg'] == 'no_team') {
+                $(".team-list").append(`아직 팀이 없습니다.`)
+            }
+        }
+    })
+}
 
 
 // 비밀번호 숨기기/보기 기능
@@ -189,60 +186,57 @@ $(".password_eye").on("mousedown", function(){
     $('.password').attr('type',"password");
 });
 
-// 비밀번호 변경전 확인기능
 
-// function post_check_password() {
-//     let password = $('#now-password').val()
-//     $.ajax({
-//         type: "POST",
-//         url: "https://api.bbichul.site/api/check-password",
-//         headers: {
-//             Authorization:  getCookie('access_token')
-//         },
-//         data: {
-//             password: password
-//         },
-//         success: function (response) {
-//             if (response['msg'] == 'SUCCESS') {
-//                 $(".password").val('')
-//                 $('#now-password-staticBackdrop').modal('hide')
-//                 $('#new-password-staticBackdrop').modal('show')
-//             } else if (response['msg'] == 'INVALID_PASSWORD') {
-//                 alert('비밀번호가 일치하지 않습니다.')
-//                 $(".password").val('')
-//             }
-//         }
-//     })
-// }
+function post_check_password() {
+    let password = $('#now-password').val()
+    $.ajax({
+        type: "POST",
+        url: "/check-password",
+        headers: {
+            Authorization:  getCookie('access_token')
+        },
+        data: {
+            password: password
+        },
+        success: function (response) {
+            if (response['msg'] == 'SUCCESS') {
+                $(".password").val('')
+                $('#now-password-staticBackdrop').modal('hide')
+                $('#new-password-staticBackdrop').modal('show')
+            } else if (response['msg'] == 'INVALID_PASSWORD') {
+                alert('비밀번호가 일치하지 않습니다.')
+                $(".password").val('')
+            }
+        }
+    })
+}
 
-// 비밀번호 변경 기능
-
-// function post_new_password() {
-//     let password = $('#new-password').val()
-//     $.ajax({
-//         type: "POST",
-//         url: "https://api.bbichul.site/api/new-password",
-//         headers: {
-//             Authorization:  getCookie('access_token')
-//         },
-//         data: {
-//             password: password
-//         },
-//         success: function (response) {
-//             if (response['msg'] == 'SUCCESS') {
-//                 alert('성공적으로 변경되었습니다.')
-//                 $(".password").val('')
-//                 $('#new-password-staticBackdrop').modal('hide')
-//             } else if (response['msg'] == "영어 또는 숫자로 6글자 이상으로 작성해주세요") {
-//                 alert(response["msg"]);
-//                 $(".password").val('')
-//             } else if (response['msg'] == "NEED_NEW_PASSWORD") {
-//                 alert("새로운 비밀번호를 입력해주세요");
-//                 $(".password").val('')
-//             }
-//         }
-//     })
-// }
+function post_new_password() {
+    let password = $('#new-password').val()
+    $.ajax({
+        type: "POST",
+        url: "/new-password",
+        headers: {
+            Authorization:  getCookie('access_token')
+        },
+        data: {
+            password: password
+        },
+        success: function (response) {
+            if (response['msg'] == 'SUCCESS') {
+                alert('성공적으로 변경되었습니다.')
+                $(".password").val('')
+                $('#new-password-staticBackdrop').modal('hide')
+            } else if (response['msg'] == "영어 또는 숫자로 6글자 이상으로 작성해주세요") {
+                alert(response["msg"]);
+                $(".password").val('')
+            } else if (response['msg'] == "NEED_NEW_PASSWORD") {
+                alert("새로운 비밀번호를 입력해주세요");
+                $(".password").val('')
+            }
+        }
+    })
+}
 
 //회원 탈퇴
 function withdrawal() {
@@ -251,13 +245,14 @@ function withdrawal() {
 
     $.ajax({
         type: "POST",
-        url: "https://api.bbichul.shop/api/users/withdrawal",
+        url: "/status",
         contentType: 'application/json',
         data: JSON.stringify(start),
 
         success: function (response) {
-            sessionStorage.clear()
-            location.href ="index.html";
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            location.href ="/";
             alert("회원탈퇴가 완료되었습니다")
 
         }
@@ -279,44 +274,45 @@ $(document).ready(function(){
     });
 });
 
-// 마이페이지 조회 기능
-
-// function my_info() {
-//     let goal_hour = $("select[name=year]").val()
-//     $.ajax({
-//         type: "GET",
-//         url: "https://api.bbichul.site/api/my-info",
-//         headers: {
-//             Authorization:  getCookie('access_token')
-//         },
-//         data: {
-//         },
-//         success: function (response) {
-//             // let today_study_time = response["today_study_time"]
-//             let avg_study_time = response["avg_study_time"]
-//
-//             let temp_html = `<div>${avg_study_time}</div>`
-//             $('#avg-container').append(temp_html)
-//             console.log(avg_study_time)
-//
-//
-//         }
-//     })
-// }
-
-
-// 시간 그래프
-function post_study_time_graph() {
-    let year = $("select[name=year]").val()
-    let month = $("select[name=month]").val()
-
+function my_info() {
+    let goal_hour = $("select[name=year]").val()
     $.ajax({
         type: "GET",
-        url: `https://api.bbichul.shop/api/users/graph?type=line&year=${year}&month=${month}`,
-        contentType: "application/json",
+        url: "/my-info",
+        headers: {
+            Authorization:  getCookie('access_token')
+        },
+        data: {
+        },
         success: function (response) {
-            let day_list = response['dayList']
-            let day_time_list = response['dayTimeList']
+            // let today_study_time = response["today_study_time"]
+            let avg_study_time = response["avg_study_time"]
+
+            let temp_html = `<div>${avg_study_time}</div>`
+            $('#avg-container').append(temp_html)
+            console.log(avg_study_time)
+
+
+        }
+    })
+}
+
+
+
+function post_study_time_graph() {
+    let json = {
+        "year": $("select[name=year]").val(),
+        "month": $("select[name=month]").val()
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/line-graph",
+        contentType: "application/json",
+        data: JSON.stringify(json),
+        success: function (response) {
+            let day_list = response['day_list']
+            let day_time_list = response['day_time_list']
 
             let study_time_graph = document.getElementById('study_time_graph').getContext('2d');
             let barChart = new Chart(study_time_graph, {
@@ -336,7 +332,7 @@ function post_study_time_graph() {
                         text: '월별 공부시간',
                         fontSize: 30,
                         fontColor: 'green'
-                    },
+                        },
                     legend: {
                         display: false,
                         align: top
@@ -346,7 +342,7 @@ function post_study_time_graph() {
                             ticks: {
                                 callback: function(label, index, labels) {
                                     return parseInt(label/3600) +'h';
-                                },
+                                    },
                                 beginAtZero: true,
                                 stepSize: 3600,
                             }
@@ -359,14 +355,16 @@ function post_study_time_graph() {
     })
 }
 
-// 주간 공부시간 그래프
 function post_weekly_avg_graph() {
-    let year = $("select[name=year]").val()
-    let month = $("select[name=month]").val()
+    let json = {
+        "year": $("select[name=year]").val(),
+        "month": $("select[name=month]").val()
+    };
     $.ajax({
-        type: "GET",
-        url: `https://api.bbichul.shop/api/users/graph?type=bar&year=${year}&month=${month}`,
+        type: "POST",
+        url: "/bar-graph",
         contentType: "application/json",
+        data: JSON.stringify(json),
         success: function (response) {
             let monday = response['monday']
             let tuesday = response['tuesday']
@@ -398,7 +396,7 @@ function post_weekly_avg_graph() {
                             ticks: {
                                 callback: function(label, index, labels) {
                                     return parseInt(label/3600) +'h';
-                                },
+                                    },
                                 beginAtZero: true,
                                 stepSize: 3600,
                             }

@@ -130,7 +130,7 @@ function getInfo() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: "https://api.bbichul.shop/api/calendars",
+        url: "/calendars/info",
         contentType: "application/json",
         async: false, //전역변수에 값을 저장하기 위해 동기 방식으로 전환,
         data: {},
@@ -193,7 +193,7 @@ function updateText() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: "https://api.bbichul.shop/api/calendars/calendar/memo",
+        url: "/calendars/memo",
         contentType: "application/json",
         data: JSON.stringify(doc),
         success: function (response) {
@@ -216,7 +216,7 @@ function clickedDayGetMemo(obj) {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: `https://api.bbichul.shop/api/calendars/calendar/memo?dateData=${btn_year_month_day}&calendarType=${selected_cal_now}`,
+        url: `/calendars/memo?dateData=${btn_year_month_day}&calendarType=${selected_cal_now}`,
         // data: {date_give: btn_year_month_day, select_cal_give: selected_cal_now},
         success: function (response) {
             console.log(response);
@@ -248,7 +248,7 @@ function addCalender() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: "https://api.bbichul.shop/api/calendars/calendar",
+        url: "/calendars/option",
         contentType: "application/json",
         data: JSON.stringify(doc),
         success: function (response) {
@@ -298,7 +298,7 @@ function getMemo() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: `https://api.bbichul.shop/api/calendars/calendar?calendarType=${selected_cal_now}`,
+        url: `/calendars/option?calendarType=${selected_cal_now}`,
         // data: {calendarType: selected_cal_now},
         success: function (response) {
             console.log(response)

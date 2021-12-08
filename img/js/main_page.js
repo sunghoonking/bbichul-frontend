@@ -12,7 +12,7 @@ $(document).ready(function () {
 function getWiseSy() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.shop/api/wise",
+        url: "/wise",
         contentType: 'application/json; charset=utf-8',
         success: function (response) {
             let i = getRandomNumberOf(response.length);
@@ -26,6 +26,7 @@ function wise(wise){
                      <p>${wise['name']}</p>`
     $('#wise-box').append(temp_html)
 }
+
 
 // 현재시간 및 날짜
 let date_list = $("#Clockday").text().split(' ')
@@ -94,6 +95,7 @@ function getWeather(lat, lon) {
             let $temp_max = json.main.temp_max;//최고온도
             let $temp_min = json.main.temp_min;//최저온도
             let icon = json.weather[0].icon;//날씨아이콘
+            let $wId = json.weather[0].id; // 날씨 상태 id 코드
             let _icon = `https://openweathermap.org/img/wn/${icon}@2x.png`
 
 
@@ -130,6 +132,7 @@ function handleGeoSucc(position) {
 // 위치 정보를 가져오지 못할시 서울로 가져옴
 function handleGeoErr() {
 
+
     fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=8bd97449cfbe6250092e849b78668814&units=metric`
     )
@@ -146,6 +149,8 @@ function handleGeoErr() {
             let $temp_max = json.main.temp_max;//최고온도
             let $temp_min = json.main.temp_min;//최저온도
             let icon = json.weather[0].icon;//날씨아이콘
+            // let $wId = json.weather[0].id; // 날씨 상태 id 코드
+            // let $country = json.sys.country; //  국가 나오기 
             let _icon = `https://openweathermap.org/img/wn/${icon}@2x.png`
 
             $('.csky').append($sky);
@@ -173,6 +178,9 @@ $('#play-next').click(function () {
     $("#myaudio")[0].load();
     $("#myaudio")[0].play();
 });
+
+
+
 
 // 내가 끝을 누르기 전까지 공부시간 체크(스톱워치)
 let hour = 0;
@@ -241,13 +249,13 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 
 });
 
-// 체크인 공부 시작
+// 공부시작 눌렀을시
 function check_in() {
     let start = {"isstudying": true}
 
     $.ajax({
         type: "POST",
-        url: "https://api.bbichul.shop/api/times/check-in",
+        url: "/user",
         contentType: 'application/json',
         data: JSON.stringify(start),
 
@@ -255,33 +263,68 @@ function check_in() {
         }
     })
 }
+// 메인페이지 공부 종료 눌렀을때
+function checkout_choice() {
 
+    if (localStorage.getItem('yesterday_study_time') != undefined) {
+        midnight();
+    } else {
+        check_out();
+    }
+}
 
 // 00시 기준으로 시간 자동저장
+// setInterval(Clock, 1000);
 function record_time() {
     let h = parseInt(hour) * 60 *60
     let m = parseInt(minute)* 60
     let s = parseInt(seconds)
     let date = new Date()
-    if (date.getHours() == 0 && date.getMinutes() == 0 & date.getSeconds() == 0) {
+    if (date.getHours() == 15 && date.getMinutes() == 26 & date.getSeconds() == 40) {
         let yesterday_study_time = (h + m + s)
         localStorage.setItem('yesterday_study_time', yesterday_study_time)
     }
 }
 
-
-// 체크아웃 시간 저장 기능
-function checkout() {
+// 공부 종료 눌렀을시
+function check_out() {
     let h = parseInt(hour) * 60 *60
     let m = parseInt(minute)* 60
     let s = parseInt(seconds)
 
     let study_time = (h + m + s)
 
-    let stop = {"studyTime":(study_time), "isStudying": false,"yesterdayTime":localStorage.getItem("yesterday_study_time")}
+
+    let stop = {"study_time":(study_time), "isstudying": false}
+    console.log(stop)
+
     $.ajax({
         type: "POST",
-        url: "https://api.bbichul.shop/api/times/check-out",
+        url: "/time",
+        contentType: 'application/json',
+        data: JSON.stringify(stop),
+
+        success: function (response) {
+
+
+            alert("좋아 오늘도 성장했어😋");
+        }
+    })
+
+}
+
+// 00시 기준 공부를 전날에 시작해 다음날 끝날때의 함수
+function midnight() {
+    let h = parseInt(hour) * 60 *60
+    let m = parseInt(minute)* 60
+    let s = parseInt(seconds)
+
+    let study_time = (h + m + s)
+
+    let stop = {"study_time":(study_time), "isstudying": false,"yesterday_time":localStorage.getItem("yesterday_study_time")}
+    $.ajax({
+        type: "POST",
+        url: "/ytime",
         contentType: 'application/json',
         data: JSON.stringify(stop),
         success: function (response) {
