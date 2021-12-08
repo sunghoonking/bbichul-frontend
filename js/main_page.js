@@ -243,7 +243,7 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 
 // 체크인 공부 시작
 function check_in() {
-    let start = {"isstudying": true}
+    let start = {"studying": true}
 
     $.ajax({
         type: "POST",
@@ -278,7 +278,7 @@ function checkout() {
 
     let study_time = (h + m + s)
 
-    let stop = {"studyTime":(study_time), "isStudying": false,"yesterdayTime":localStorage.getItem("yesterday_study_time")}
+    let stop = {"studyTime":(study_time), "studying": false,"yesterdayTime":localStorage.getItem("yesterday_study_time")}
     $.ajax({
         type: "POST",
         url: "https://api.bbichul.shop/api/times/check-out",
