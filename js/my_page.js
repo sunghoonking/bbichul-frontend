@@ -50,7 +50,7 @@ function post_goal_modal() {
     if (days >= 0) {
             $.ajax({
                 type: "PUT",
-                url: "https://api.bbichul.site/api/users/goal",
+                url: "https://api.bbichul.shop/api/users/goal",
                 data: JSON.stringify(json),
                 contentType: "application/json",
                 success: function (response) {
@@ -66,7 +66,7 @@ function post_goal_modal() {
 function get_goal_modal() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.site/api/users/goal",
+        url: "https://api.bbichul.shop/api/users/goal",
         contentType: "application/json",
         data: {
         },
@@ -100,7 +100,7 @@ function post_resolution_modal() {
     let json = {"content": content};
     $.ajax({
         type: "PUT",
-        url: "https://api.bbichul.site/api/users/resolution",
+        url: "https://api.bbichul.shop/api/users/resolution",
         data: JSON.stringify(json),
         contentType: "application/json",
         success: function (response) {
@@ -113,7 +113,7 @@ function post_resolution_modal() {
 function get_resolution_modal() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.site/api/users/resolution",
+        url: "https://api.bbichul.shop/api/users/resolution",
         data: {},
         contentType: "application/json",
         success: function (response) {
@@ -153,7 +153,7 @@ function get_resolution_modal() {
 function get_nickname_modal() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.site/api/nickname-modal",
+        url: "https://api.bbichul.shop/api/nickname-modal",
         contentType: "application/json",
         data: {},
         success: function (response) {
@@ -256,7 +256,7 @@ function withdrawal() {
 
     $.ajax({
         type: "POST",
-        url: "https://api.bbichul.site/api/users/withdrawal",
+        url: "https://api.bbichul.shop/api/users/withdrawal",
         contentType: 'application/json',
         data: JSON.stringify(start),
 
@@ -317,7 +317,7 @@ function post_study_time_graph() {
 
     $.ajax({
         type: "GET",
-        url: `https://api.bbichul.site/api/users/graph?type=line&year=${year}&month=${month}`,
+        url: `https://api.bbichul.shop/api/users/graph?type=line&year=${year}&month=${month}`,
         contentType: "application/json",
         success: function (response) {
             let day_list = response['dayList']
@@ -370,7 +370,7 @@ function post_weekly_avg_graph() {
     let month = $("select[name=month]").val()
     $.ajax({
         type: "GET",
-        url: `https://api.bbichul.site/api/users/graph?type=bar&year=${year}&month=${month}`,
+        url: `https://api.bbichul.shop/api/users/graph?type=bar&year=${year}&month=${month}`,
         contentType: "application/json",
         success: function (response) {
             let monday = response['monday']

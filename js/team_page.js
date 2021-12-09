@@ -28,7 +28,7 @@ $(document).ready(function () {
 function get_progressbar() {
     $.ajax({
         type: "POST",
-        url: "https://api.bbichul.site/api/teams/task/graph",
+        url: "https://api.bbichul.shop/api/teams/task/graph",
         success: function (response) {
             let percent = response['percent']
             let done_count = response['doneCount']
@@ -48,7 +48,7 @@ function get_progressbar() {
 function teamCheck() {
     $.ajax({
         type: "GET",
-        url: `https://api.bbichul.site/api/teams`,
+        url: `https://api.bbichul.shop/api/teams`,
         success: function (response) {
             if (response == "아직 소속된 팀이 없습니다.") {
                 $('.team-exist').hide()
@@ -83,7 +83,7 @@ function createTeam() {
     } else {
         $.ajax({
             type: "POST",
-            url: "https://api.bbichul.site/api/teams",
+            url: "https://api.bbichul.shop/api/teams",
             contentType: "application/json",
             data: JSON.stringify(teamname),
             success: function (response) {
@@ -115,7 +115,7 @@ function invite_team() {
     } else {
         $.ajax({
             type: "POST",
-            url: "https://api.bbichul.site/api/teams/signup",
+            url: "https://api.bbichul.shop/api/teams/signup",
             contentType: "application/json",
             data: JSON.stringify(teamname),
             success: function (response) {
@@ -147,7 +147,7 @@ function teamname_check() {
     } else {
         $.ajax({
             type: "POST",
-            url: "https://api.bbichul.site/api/teams/checkname",
+            url: "https://api.bbichul.shop/api/teams/checkname",
             contentType: "application/json",
             data: JSON.stringify(name),
             success: function (response) {
@@ -178,7 +178,7 @@ $('#create-team-close').on('click',function() {
 function showtask() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.site/api/teams/task",
+        url: "https://api.bbichul.shop/api/teams/task",
         success: function (response) {
             get_progressbar()
             for (let i = 0; i < response.length; i++) {
@@ -211,7 +211,7 @@ $(document).ready(function () {
             let teamtask = {task : task}
             $.ajax({
                 type: "POST",
-                url: "https://api.bbichul.site/api/teams/task",
+                url: "https://api.bbichul.shop/api/teams/task",
                 contentType: "application/json",
                 data: JSON.stringify(teamtask),
                 success: function (response) {
@@ -233,7 +233,7 @@ function deletetask(id) {
     let taskId = {id:id}
     $.ajax({
         type: "DELETE",
-        url: `https://api.bbichul.site/api/teams/task`,
+        url: `https://api.bbichul.shop/api/teams/task`,
         contentType: "application/json",
         data: JSON.stringify(taskId),
         success: function () {
@@ -247,7 +247,7 @@ function changedone(id) {
     let taskId = {id:id}
     $.ajax({
         type: "PUT",
-        url: `https://api.bbichul.site/api/teams/task`,
+        url: `https://api.bbichul.shop/api/teams/task`,
         contentType: "application/json",
         data: JSON.stringify(taskId),
         success: function () {
@@ -261,7 +261,7 @@ function checkstatus() {
     let status = "check-in"
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.site/api/teams/status",
+        url: "https://api.bbichul.shop/api/teams/status",
         success: function (response) {
             for (let i = 0; i < response.length; i++) {
                 let nick_name = response[i]['username']

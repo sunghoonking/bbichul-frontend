@@ -62,7 +62,7 @@ function sign_up() {
 
     $.ajax({
         type: 'POST',
-        url: `https://api.bbichul.site/api/users/signup`,
+        url: `https://api.bbichul.shop/api/users/signup`,
         contentType: "application/json",
         data: JSON.stringify(info),
         success: function (response) {
@@ -91,7 +91,7 @@ function login() {
     }
     $.ajax({
         type: 'POST',
-        url: `https://api.bbichul.site/api/users/login`,
+        url: `https://api.bbichul.shop/api/users/login`,
         contentType: "application/json",
         data: JSON.stringify(info),
         success: function (response) {
@@ -131,7 +131,7 @@ function nickname_check() {
     }
     $.ajax({
         type: "POST",
-        url: "https://api.bbichul.site/api/users/check",
+        url: "https://api.bbichul.shop/api/users/check",
         contentType: 'application/json',
         data: JSON.stringify(nick_name),
         success: function (response) {

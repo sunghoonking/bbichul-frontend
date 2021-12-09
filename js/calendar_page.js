@@ -101,7 +101,7 @@ function getInfo() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: "https://api.bbichul.site/api/calendars/info",
+        url: "https://api.bbichul.shop/api/calendars/info",
         contentType: "application/json",
         async: false, //전역변수에 값을 저장하기 위해 동기 방식으로 전환,
         data: {},
@@ -151,7 +151,7 @@ function updateText() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: "https://api.bbichul.site/api/calendars/calendar/memo",
+        url: "https://api.bbichul.shop/api/calendars/calendar/memo",
         contentType: "application/json",
         data: JSON.stringify(doc),
         success: function (response) {
@@ -170,7 +170,7 @@ function clickedDayGetMemo(obj) {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: `https://api.bbichul.site/api/calendars/calendar/memo?id=${selected_calendar_id}&date=${btn_year_month_day}`,
+        url: `https://api.bbichul.shop/api/calendars/calendar/memo?id=${selected_calendar_id}&date=${btn_year_month_day}`,
         // data: {date_give: btn_year_month_day, select_cal_give: selected_cal_now},
         success: function (response) {
             let receive_memo = response.contents;
@@ -195,7 +195,7 @@ function addCalender() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: "https://api.bbichul.site/api/calendars/calendar",
+        url: "https://api.bbichul.shop/api/calendars/calendar",
         contentType: "application/json",
         data: JSON.stringify(doc),
         success: function (response) {
@@ -237,7 +237,7 @@ function getMemo() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: `https://api.bbichul.site/api/calendars/calendar?id=${selected_calendar_id}`,
+        url: `https://api.bbichul.shop/api/calendars/calendar?id=${selected_calendar_id}`,
         // data: {calendarType: selected_cal_now},
         success: function (response) {
             console.log(response)
