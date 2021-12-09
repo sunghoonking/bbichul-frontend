@@ -42,15 +42,15 @@ function post_goal_modal() {
     let goal_hour = $("input[name=goal_hour]").val()
 
     let json = {
-        "start_date": string_start_date,
-        "end_date": string_end_date,
-        "goal_hour": goal_hour
+        "startDate": string_start_date,
+        "endDate": string_end_date,
+        "goalHour": goal_hour
     };
 
     if (days >= 0) {
             $.ajax({
                 type: "PUT",
-                url: "https://api.bbichul.shop/api/users/goal",
+                url: "https://api.bbichul.site/api/users/goal",
                 data: JSON.stringify(json),
                 contentType: "application/json",
                 success: function (response) {
@@ -66,16 +66,16 @@ function post_goal_modal() {
 function get_goal_modal() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.shop/api/users/goal",
+        url: "https://api.bbichul.site/api/users/goal",
         contentType: "application/json",
         data: {
         },
         success: function (response) {
             let string_start_date = response['startDate']
             let string_end_date = response['endDate']
-            let d_day = response['d_day']
-            let goal_hour = response['goal_hour']
-            let done_hour = response['done_hour']
+            let d_day = response['dDay']
+            let goal_hour = response['goalHour']
+            let done_hour = response['doneHour']
             let percent = response['percent']
 
             let temp_html = `<p style="float: right">(${done_hour}/${goal_hour}시간)</p>`
@@ -100,7 +100,7 @@ function post_resolution_modal() {
     let json = {"content": content};
     $.ajax({
         type: "PUT",
-        url: "https://api.bbichul.shop/api/users/resolution",
+        url: "https://api.bbichul.site/api/users/resolution",
         data: JSON.stringify(json),
         contentType: "application/json",
         success: function (response) {
@@ -113,12 +113,17 @@ function post_resolution_modal() {
 function get_resolution_modal() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.shop/api/users/resolution",
+        url: "https://api.bbichul.site/api/users/resolution",
         data: {},
         contentType: "application/json",
         success: function (response) {
             let content = response["content"]
+            if (content == null) {
+                $('.resolution-text').text(``)
+            }else {
+
             $('.resolution-text').text(`${content}`)
+            }
         }
     })
 }
@@ -148,7 +153,7 @@ function get_resolution_modal() {
 function get_nickname_modal() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.shop/api/nickname-modal",
+        url: "https://api.bbichul.site/api/nickname-modal",
         contentType: "application/json",
         data: {},
         success: function (response) {
@@ -244,14 +249,14 @@ $(".password_eye").on("mousedown", function(){
 //     })
 // }
 
-//회원 탈퇴
+//회원 탈퇴 기능
 function withdrawal() {
 
     let start = {"status": true}
 
     $.ajax({
         type: "POST",
-        url: "https://api.bbichul.shop/api/users/withdrawal",
+        url: "https://api.bbichul.site/api/users/withdrawal",
         contentType: 'application/json',
         data: JSON.stringify(start),
 
@@ -312,7 +317,7 @@ function post_study_time_graph() {
 
     $.ajax({
         type: "GET",
-        url: `https://api.bbichul.shop/api/users/graph?type=line&year=${year}&month=${month}`,
+        url: `https://api.bbichul.site/api/users/graph?type=line&year=${year}&month=${month}`,
         contentType: "application/json",
         success: function (response) {
             let day_list = response['dayList']
@@ -365,7 +370,7 @@ function post_weekly_avg_graph() {
     let month = $("select[name=month]").val()
     $.ajax({
         type: "GET",
-        url: `https://api.bbichul.shop/api/users/graph?type=bar&year=${year}&month=${month}`,
+        url: `https://api.bbichul.site/api/users/graph?type=bar&year=${year}&month=${month}`,
         contentType: "application/json",
         success: function (response) {
             let monday = response['monday']

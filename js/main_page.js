@@ -12,7 +12,7 @@ $(document).ready(function () {
 function getWiseSy() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.shop/api/wise",
+        url: "https://api.bbichul.site/api/wise",
         contentType: 'application/json; charset=utf-8',
         success: function (response) {
             let i = getRandomNumberOf(response.length);
@@ -247,7 +247,7 @@ function check_in() {
 
     $.ajax({
         type: "POST",
-        url: "https://api.bbichul.shop/api/times/check-in",
+        url: "https://api.bbichul.site/api/times/check-in",
         contentType: 'application/json',
         data: JSON.stringify(start),
 
@@ -281,7 +281,7 @@ function checkout() {
     let stop = {"studyTime":(study_time), "studying": false,"yesterdayTime":localStorage.getItem("yesterday_study_time")}
     $.ajax({
         type: "POST",
-        url: "https://api.bbichul.shop/api/times/check-out",
+        url: "https://api.bbichul.site/api/times/check-out",
         contentType: 'application/json',
         data: JSON.stringify(stop),
         success: function (response) {

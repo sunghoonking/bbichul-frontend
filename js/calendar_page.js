@@ -1,9 +1,11 @@
+//달력에 필요한 변수들 선언, 초기화
 let date;
 let btn_year_month_day = ''; //텍스트 박스와 캘린더 연동 위한 달력 버튼 ID 값 저장
 let nick_name;
 let team_name;
 let selected_calendar_id;
 let rCheck;
+
 $(document).ready(function () {
     getInfo()
     renderCalendar();
@@ -83,12 +85,12 @@ function checkingOnce(id) {
     nick_name = sessionStorage.getItem("username");
     if (rCheck == null){
         selected_calendar_id = id;
-        sessionStorage.setItem("selected_calendar_id", selected_calendar_id);
+        sessionStorage.setItem("calId", selected_calendar_id);
         rCheck = sessionStorage.setItem("rCheck", true);
         date = new Date();
         sessionStorage.setItem("date", date)
     }else if (rCheck) {
-        selected_calendar_id = sessionStorage.getItem("selected_calendar_id");
+        selected_calendar_id = sessionStorage.getItem("calId");
         date = new Date(sessionStorage.getItem("date"));
     }
 }
@@ -96,7 +98,10 @@ function checkingOnce(id) {
 function getInfo() {
     $.ajax({
         type: "GET",
-        url: "https://api.bbichul.shop/api/calendars",
+        // headers: {
+        //     Authorization: getCookie('access_token')
+        // },
+        url: "https://api.bbichul.site/api/calendars/info",
         contentType: "application/json",
         async: false, //전역변수에 값을 저장하기 위해 동기 방식으로 전환,
         data: {},
@@ -140,22 +145,24 @@ function updateText() {
         "contents" : varMemoText,
         "dateData" : btn_year_month_day
     }
+
     $.ajax({
         type: "PUT",
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: "https://api.bbichul.shop/api/calendars/calendar/memo",
+        url: "https://api.bbichul.site/api/calendars/calendar/memo",
         contentType: "application/json",
         data: JSON.stringify(doc),
         success: function (response) {
+            console.log(1)
         }
     })
     location.reload();
     //현재 새로고침 안하면 메모 입력 시 반영 안 되는 버그로 넣어놨습니다
 }
 function clickedDayGetMemo(obj) {
-    let btn_year_month_day = $(obj).attr('id'); // 달력 날짜를 클릭 했을 때 받아온 날짜 ID 를 변수에 초기화.
+    btn_year_month_day = $(obj).attr('id'); // 달력 날짜를 클릭 했을 때 받아온 날짜 ID 를 변수에 초기화.
     let set_memo_date = btn_year_month_day.replace("Y", "년 ").replace("M", "월 ") + "일";
     $('.select-date').text(set_memo_date);
     $.ajax({
@@ -163,10 +170,9 @@ function clickedDayGetMemo(obj) {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: `https://api.bbichul.shop/api/calendars/calendar/memo?id=${selected_calendar_id}&date=${btn_year_month_day}`,
+        url: `https://api.bbichul.site/api/calendars/calendar/memo?id=${selected_calendar_id}&date=${btn_year_month_day}`,
         // data: {date_give: btn_year_month_day, select_cal_give: selected_cal_now},
         success: function (response) {
-            console.log(response);
             let receive_memo = response.contents;
             $('#calenderNote').text(receive_memo);
         }
@@ -189,7 +195,7 @@ function addCalender() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: "https://api.bbichul.shop/api/calendars/calendar",
+        url: "https://api.bbichul.site/api/calendars/calendar",
         contentType: "application/json",
         data: JSON.stringify(doc),
         success: function (response) {
@@ -200,12 +206,14 @@ function addCalender() {
 }
 //선택한 캘린더로 세팅합니다.
 function setCalender(obj) {
+    console.log(selected_calendar_id);
     let selected_check = $(obj).attr("id");
-    if (select_calender_id == selected_check) {
-        alert("현재 선택 된 캘린더입니다.")
+    if (selected_calendar_id == selected_check) {
+        alert("현재 선택 된 캘린더입니다.");
+        return;
     } else {
-        select_calender_id = selected_check;
-        sessionStorage.setItem("selected_calender_id", select_calender_id)
+        selected_calendar_id = selected_check;
+        sessionStorage.setItem("calId", selected_calendar_id);
         let calender_info = $(obj).attr('value');
         let private_or_team = calender_info.substr(0, 1);
         let calender_num = calender_info.substr(1, 1);
@@ -229,7 +237,7 @@ function getMemo() {
         // headers: {
         //     Authorization: getCookie('access_token')
         // },
-        url: `https://api.bbichul.shop/api/calendars/calendar?id=${selected_calendar_id}`,
+        url: `https://api.bbichul.site/api/calendars/calendar?id=${selected_calendar_id}`,
         // data: {calendarType: selected_cal_now},
         success: function (response) {
             console.log(response)
@@ -258,7 +266,7 @@ $("#calenderNote").on("propertychange change keyup paste input", function () {
     console.log(btn_year_month_day)
     oldVal = currentVal;
     if( oldVal.length > 4){
-        $('#' + btn_year_month_day + "text").text(oldVal.substr(0, 5) + '・・・');
+     $('#' + btn_year_month_day + "text").text(oldVal.substr(0, 5) + '・・・');
     }else{
         $('#' + btn_year_month_day + "text").text(oldVal.substr(0, 5));
     }
@@ -268,3 +276,4 @@ $("#calenderNote").on("propertychange change keyup paste input", function () {
 });
 //유저이름 가져오기
 $("#username").html(sessionStorage.getItem("username"));
+//TODO: 메모 타이틀 넣어서 노션 캘린더 비스무리하게 만들기,,
