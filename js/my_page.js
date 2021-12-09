@@ -317,7 +317,7 @@ function post_study_time_graph() {
 
     $.ajax({
         type: "GET",
-        url: `https://api.bbichul.site/api/users/graph?type=line&year=${year}&month=${month}`,
+        url: `https://api.bbichul.shop/api/users/graph?type=line&year=${year}&month=${month}`,
         contentType: "application/json",
         success: function (response) {
             let day_list = response['dayList']
@@ -370,7 +370,7 @@ function post_weekly_avg_graph() {
     let month = $("select[name=month]").val()
     $.ajax({
         type: "GET",
-        url: `https://api.bbichul.site/api/users/graph?type=bar&year=${year}&month=${month}`,
+        url: `https://api.bbichul.shop/api/users/graph?type=bar&year=${year}&month=${month}`,
         contentType: "application/json",
         success: function (response) {
             let monday = response['monday']
