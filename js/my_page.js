@@ -1,3 +1,11 @@
+//진입전 로그인 확인
+window.onpageshow = function (event) {
+    if (sessionStorage.getItem("token") == null) {
+        alert('로그인 해주세요')
+        location.href = "index.html";
+    }
+}
+
 //처음들어왔을때 select-box가 현재 년,월로 찍히게 하기
 $("#year").val(2021);
 $("#month").val(12);
@@ -10,7 +18,8 @@ $(document).ready(function () {
     get_goal_modal()
     get_resolution_modal()
     get_nickname_modal()
-    get_user_team()
+    // get_user_team()
+    get_total_time()
 });
 
 //select-box에서 월이 바뀌면 날짜에 맞는 그래프를 다시불러옴
@@ -62,6 +71,20 @@ function post_goal_modal() {
     }else{
         alert('시작일 종료일 설정을 다시 해주세요')
 }}
+
+function get_total_time() {
+    $.ajax({
+        type: "GET",
+        url: "https://api.bbichul.shop/api/users/time",
+        contentType: "application/json",
+        data: {
+        },
+        success: function (response) {
+            let total_hour = response["totalHour"]
+            $('.total-study-time').text(`(총 공부시간 : ${total_hour}시간)`)
+        }
+    })
+}
 
 function get_goal_modal() {
     $.ajax({
@@ -135,7 +158,7 @@ function get_resolution_modal() {
 //
 //     $.ajax({
 //         type: "POST",
-//         url: "https://api.bbichul.site/api/nickname-modal",
+//         url: "https://api.bbichul.shop/api/nickname-modal",
 //         contentType: "application/json",
 //         data: JSON.stringify(json),
 //         success: function (response) {
@@ -168,7 +191,7 @@ function get_nickname_modal() {
 // function get_user_team() {
 //     $.ajax({
 //         type: "GET",
-//         url: "https://api.bbichul.site/api/user-team",
+//         url: "https://api.bbichul.shop/api/user-team",
 //         headers: {
 //             Authorization:  getCookie('access_token')
 //         },
@@ -200,7 +223,7 @@ $(".password_eye").on("mousedown", function(){
 //     let password = $('#now-password').val()
 //     $.ajax({
 //         type: "POST",
-//         url: "https://api.bbichul.site/api/check-password",
+//         url: "https://api.bbichul.shop/api/check-password",
 //         headers: {
 //             Authorization:  getCookie('access_token')
 //         },
@@ -226,7 +249,7 @@ $(".password_eye").on("mousedown", function(){
 //     let password = $('#new-password').val()
 //     $.ajax({
 //         type: "POST",
-//         url: "https://api.bbichul.site/api/new-password",
+//         url: "https://api.bbichul.shop/api/new-password",
 //         headers: {
 //             Authorization:  getCookie('access_token')
 //         },
@@ -290,7 +313,7 @@ $(document).ready(function(){
 //     let goal_hour = $("select[name=year]").val()
 //     $.ajax({
 //         type: "GET",
-//         url: "https://api.bbichul.site/api/my-info",
+//         url: "https://api.bbichul.shop/api/my-info",
 //         headers: {
 //             Authorization:  getCookie('access_token')
 //         },
@@ -312,7 +335,7 @@ $(document).ready(function(){
 
 // 시간 그래프
 function post_study_time_graph() {
-    let year = $("select[name=year]").val()
+        let year = $("select[name=year]").val()
     let month = $("select[name=month]").val()
 
     $.ajax({
@@ -366,7 +389,7 @@ function post_study_time_graph() {
 
 // 주간 공부시간 그래프
 function post_weekly_avg_graph() {
-    let year = $("select[name=year]").val()
+        let year = $("select[name=year]").val()
     let month = $("select[name=month]").val()
     $.ajax({
         type: "GET",

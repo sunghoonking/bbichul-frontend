@@ -19,6 +19,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
 
     <!-- Vendor CSS Files -->
     <link href="./vendor/animate.css/animate.min.css" rel="stylesheet">
@@ -111,40 +114,40 @@
                     <div class="timeline-image"><img class="rounded-circle img-fluid" src="./img/about/1.jpg" alt="..." /></div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4>로그인 기능</h4>
-                            <h4 class="subheading">로그인이 가능합니다</h4>
+                            <h4>Main Page</h4>
+                            <h4 class="subheading">공부시간?</h4>
                         </div>
-                        <div class="timeline-body"><p class="text-muted">지금은 자체적으로 로그인 하지만 추후 소셜 로그인 기능이 업데이트 될 예정입니다.</p></div>
+                        <div class="timeline-body"><p class="text-muted">타이머 기능으로 내 공부 시간을 체크할 수 있습니다!</p></div>
                     </div>
                 </li>
                 <li class="timeline-inverted">
                     <div class="timeline-image"><img class="rounded-circle img-fluid" src="./img/about/2.jpg" alt="..." /></div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4>출석 확인 기능</h4>
-                            <h4 class="subheading">클릭 한번으로 출석 체크가 가능합니다</h4>
+                            <h4>My Page</h4>
+                            <h4 class="subheading">내 정보?</h4>
                         </div>
-                        <div class="timeline-body"><p class="text-muted">팀원의 출석 현황을 팀페이지에서도 확인 가능합니다.</p></div>
+                        <div class="timeline-body"><p class="text-muted">내 정보 수정, 내 공부시간 확인 및 목표 공부시간을 설정할 수 있습니다!</p></div>
                     </div>
                 </li>
                 <li>
                     <div class="timeline-image"><img class="rounded-circle img-fluid" src="./img/about/3.jpg" alt="..." /></div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4>명언 기능</h4>
-                            <h4 class="subheading">공부 관련 명언이 매번 새롭게 나타납니다</h4>
+                            <h4>Team Page</h4>
+                            <h4 class="subheading">팀 페이지 까지?</h4>
                         </div>
-                        <div class="timeline-body"><p class="text-muted">매일 매일 새롭게 보여주는 명언을 통해 오늘의 목표를 다짐할 수 있습니다. 명언을 보며 오늘 하루도 불태워보세요! </p></div>
+                        <div class="timeline-body"><p class="text-muted">나와 함께하는 팀원이 현재 공부 중인지 확인하고 팀만의 목표를 계획할 수 있습니다!</p></div>
                     </div>
                 </li>
                 <li class="timeline-inverted">
                     <div class="timeline-image"><img class="rounded-circle img-fluid" src="./img/about/4.jpg" alt="..." /></div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h4>시간 관리 기능</h4>
-                            <h4 class="subheading">오늘 얼마나 공부했는지 알 수 있습니다</h4>
+                            <h4>Schedule Page</h4>
+                            <h4 class="subheading">일정 관리 까지?</h4>
                         </div>
-                        <div class="timeline-body"><p class="text-muted">START 버튼을 누르는 순간 시간 측정이 시작됩니다. 실시간으로 시간이 흐르는 걸 확인해보세요. STOP 버튼을 누르면 오늘 하루 얼마나 공부에 몰두했는지 알 수 있습니다!</p></div>
+                        <div class="timeline-body"><p class="text-muted">캘린더를 사용해 앞으로 나의 계획, 일정을 관리할 수 있습니다!</p></div>
                     </div>
                 </li>
                 <li class="timeline-inverted">
@@ -243,68 +246,115 @@
      aria-labelledby="logInModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">로그인</h5>
-                <button id="login_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">x</span>
-                </button>
+        <div class="modal-content p-sm-4 p-3 position-relative">
+            <button type="button" class="close position-absolute" data-dismiss="modal" aria-label="Close">
+                <i class="fas fa-times-circle fa-lg"></i>
+            </button>
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-center w-100">로그인</h5>
             </div>
             <div class="modal-body">
-                <div class="input-box">
-                    <label>닉네임</label>
-                    <input type="text" id="login_nickname">
+
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text rounded-0 border-0">닉네임</div>
+                    </div>
+                    <input type="text" id="login_nickname" class="form-control rounded-0" placeholder="닉네임을 입력해 주세요">
                 </div>
-                <div class="input-box">
-                    <label>비밀번호</label>
-                    <input type="password" id="login_password" placeholder="비밀번호를 입력해주세요.">
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text rounded-0 border-0">비밀번호</div>
+                    </div>
+                    <input type="password" id="login_password" class="form-control rounded-0"  placeholder="비밀번호를 입력해 주세요">
                     <button type="button" id="login_password_eye">비밀번호 보기</button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal" onclick="hide_nickname()">회원가입</button>
-                <button type="button" class="btn btn-secondary" onclick="login()">확인</button>
+                <div class="modal-footer">
+                    <button class="btn w-100 text-white rounded-0 py-2" onclick="login()" type="submit">확인</button>
+                    <button class="btn1 w-100 text-white rounded-0 py-2" type="button" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#signupModal" onclick="hide_nickname()">회원가입</button>
+                    <button class="btn2 w-100 text-white rounded-0 py-2" type="button" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#recoverModal">계정복구</button>
+
+                </div>
+
             </div>
         </div>
     </div>
 </div>
-<
+    <!--recover Modal -->
+<div class="modal fade" id="recoverModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+     aria-labelledby="logInModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-sm-4 p-3 position-relative">
+            <button type="button" class="close position-absolute" data-dismiss="modal" aria-label="Close">
+                <i class="fas fa-times-circle fa-lg"></i>
+            </button>
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-center w-100">계정복구</h5>
+            </div>
+            <div class="modal-body">
+
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text rounded-0 border-0">닉네임</div>
+                    </div>
+                    <input type="text" id="recover_nickname" class="form-control rounded-0" placeholder="닉네임을 입력해 주세요">
+                </div>
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+
+                    </div></div>
+                <div class="modal-footer">
+                    <button class="btn w-100 text-white rounded-0 py-2" onclick="recover()" type="submit">확인</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- sign up Modal -->
 <div class="modal fade" id="signupModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
      aria-labelledby="logInModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="signupModalLabel">회원가입</h5>
-                <button id="signup_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">x</span>
-                </button>
+        <div class="modal-content p-sm-4 p-3 position-relative">
+            <button type="button" class="close position-absolute" data-dismiss="modal" aria-label="Close" >
+                <i class="fas fa-times-circle fa-lg"></i>
+            </button>
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-center w-100">회원가입</h5>
             </div>
             <div class="modal-body">
-                <div class="input-box">
-                    <label>닉네임</label>
-                    <input type="text" id="nickname">
-                    <p id="help-id" class="help is-hidden"></p>
-                    <p id="help-id-login" class="help is-danger"></p>
-                    <p id="can-using">사용해도 되는 닉네임 입니다.</p>
-                    <p id="cant-using">이미 사용중인 닉네임 입니다.</p>
+
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text rounded-0 border-0">닉네임</div>
+                    </div>
+                    <input type="text" id="nickname" class="form-control rounded-0"  placeholder="닉네임을 입력해 주세요">
                     <button type="button" onclick="nickname_check()">중복확인</button>
                 </div>
-                <div class="input-box">
-                    <label>비밀번호</label>
-                    <input type="password" id="signup_password">
-                    <p id="help-password" class="help is-hidden"></p>
+                <p id="help-id" class="help is-hidden"></p>
+                <p id="help-id-login" class="help is-danger"></p>
+                <p id="can-using">사용해도 되는 닉네임 입니다.</p>
+                <p id="cant-using">이미 사용중인 닉네임 입니다.</p>
+
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text rounded-0 border-0">비밀번호</div>
+                    </div>
+                    <input type="password" id="signup_password" class="form-control rounded-0" placeholder="비빌번호를 입력해 주세요">
+
                     <button type="button" id="signup_password_eye">비밀번호 보기</button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="sign_up()">가입완료</button>
+                <p id="help-password" class="help is-hidden"></p>
+                <button class="btn w-100 text-white rounded-0 py-2" type="submit" onclick="sign_up()">가입완료</button>
+
             </div>
         </div>
     </div>
 </div>
 
 </body>
+
 </html>

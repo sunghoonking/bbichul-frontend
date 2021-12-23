@@ -37,6 +37,7 @@ function main_login_check() {
 }
 
 
+
 // 회원가입 기능
 function sign_up() {
     let username = $('#nickname').val()
@@ -46,17 +47,38 @@ function sign_up() {
         password:password,
     }
     if (username === "") {
-        $("#help-id-login").text("닉네임을 입력해주세요.")
+        $("#help-id-login").text("닉네임을 입력해주세요!")
+        $("#nickname").focus()
+        return;
+    } else {
+        $("#help-id-login").text("")
+    }
+    if (username.search(/\s/) != -1) {
+        $("#help-id-login").text("공백은 포함 될 수 없습니다!")
         $("#nickname").focus()
         return;
     } else {
         $("#help-id-login").text("")
     }
     if (password === "") {
-        $("#help-password").text("비밀번호를 입력해주세요.")
+        $("#help-password").text("비밀번호를 입력해주세요!")
         $("#signup_password").focus()
         return;
-    }else {
+    }  else {
+        $("#help-password").text("")
+    }
+    if (password.search(/\s/) != -1) {
+        $("#help-password").text("공백은 포함 될 수 없습니다!")
+        $("#signup_password").focus()
+        return;
+    }  else {
+        $("#help-password").text("")
+    }
+    if(password.length < 6){
+        $("#help-password").text("비밀번호는 6자리 이상 입력해주세요!")
+        $("#signup_password").focus()
+        return;
+    }  else {
         $("#help-password").text("")
     }
 
@@ -144,6 +166,34 @@ function nickname_check() {
             }
         }
     });
+}
+// 계정복구 기능
+function recover() {
+    if (!confirm("계정을 복구 하시겠습니까?")) {
+        alert("계정 복구에 실패하였습니다");
+        location.href ="index.html";
+    } else {
+        let name = {
+            username: $('#recover_nickname').val(),
+            status : true
+        }
+        $.ajax({
+            type: 'POST',
+            url: `https://api.bbichul.shop/api/users/recover`,
+            contentType: "application/json",
+            data: JSON.stringify(name),
+            success: function (response) {
+                alert("계정 복구가 완료되었습니다");
+                location.href ="index.html";
+            },
+            error: function (response){
+                alert("계정 탈퇴가 확인되지 않은 아이디 입니다")
+                location.href ="index.html";
+            }
+
+        })  
+
+    }
 }
 
 //유저이름 가져오기

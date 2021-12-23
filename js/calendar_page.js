@@ -1,3 +1,12 @@
+//진입전 로그인 확인
+window.onpageshow = function (event) {
+    if (sessionStorage.getItem("token") == null) {
+        alert('로그인 해주세요')
+        location.href = "index.html";
+    }
+}
+
+
 //달력에 필요한 변수들 선언, 초기화
 let date;
 let btn_year_month_day = ''; //텍스트 박스와 캘린더 연동 위한 달력 버튼 ID 값 저장
@@ -106,34 +115,49 @@ function getInfo() {
         async: false, //전역변수에 값을 저장하기 위해 동기 방식으로 전환,
         data: {},
         success: function (response) {
+            console.log(response)
             checkingOnce(response[0].id)
-            let team_calendar_count = 0;
-            let user_calendar_count = 0;
             let calendar_id;
+            let calendar_name;
             for (let i = 0; i < response.length; i++) {
                 if (response[i].team != null) {
-                    team_calendar_count++;
-                    team_name = response[i].team.teamname;
                     calendar_id = response[i].id;
+                    calendar_name = response[i].calendarName;
                     let temp_html = `<li>
-                        <button onclick="setCalender(this)" class="dropdown-item" id="${calendar_id}" value="T${team_calendar_count}">${team_name}의 캘린더 ${team_calendar_count}</button>
+                        <button onclick="setCalender(this)" class="dropdown-item" id="${calendar_id}" value="T">${calendar_name}</button>
                     </li>`
+
+                    let list_temp = `<div>
+                    <span id="rename-span-${calendar_id}">${calendar_name}</span>
+                    <input type="text" id="rename-input-${calendar_id}" class="d-none" value="${calendar_name}">
+                    <button type="button" class="btn btn-primary" value="${calendar_id}" onclick=clickRenameButton(this) id="btn-rename-${calendar_id}">이름변경</button>
+                    <button type="button" class="btn btn-primary d-none" onclick=submitRename(this) value="${calendar_id}" id="submit-rename-${calendar_id}">확인</button>
+                    <button type="button" class="btn btn-primary" onclick=deleteCalendar(this) value="${calendar_id}">삭제</button>
+                </div>`
+
                     $('#team-selected').append(temp_html);
+                    $('#team-calendar-list').append(list_temp);
                 }else if(response[i].isPrivate){
-                    user_calendar_count++;
                     calendar_id = response[i].id;
+                    calendar_name = response[i].calendarName;
                     let temp_html = `<li>
-                        <button onclick="setCalender(this)" class="dropdown-item" id="${calendar_id}" value="P${user_calendar_count}">${nick_name}의 캘린더 ${user_calendar_count}</button>
+                        <button onclick="setCalender(this)" class="dropdown-item" id="${calendar_id}" value="P">${calendar_name}</button>
                     </li>`
+                    
+                    let list_temp = `<div>
+                    <span id="rename-span-${calendar_id}">${calendar_name}</span>
+                    <input type="text" id="rename-input-${calendar_id}" class="d-none" value="${calendar_name}">
+                    <button type="button" class="btn btn-primary" value="${calendar_id}" onclick=clickRenameButton(this) id="btn-rename-${calendar_id}">이름변경</button>
+                    <button type="button" class="btn btn-primary d-none" onclick=submitRename(this) value="${calendar_id}" id="submit-rename-${calendar_id}">확인</button>
+                    <button type="button" class="btn btn-primary" onclick=deleteCalendar(this) value="${calendar_id}">삭제</button>
+                </div>`
                     $('#private-selected').append(temp_html);
+                    $('#user-calendar-list').append(list_temp);
                 }
             }
-            let calender_info = $("#"+selected_calendar_id).val();
-            if (calender_info.substr(0,1) =="T") {
-                $("#dropdownMenuLink").text(team_name + " 의 캘린더 " + calender_info.substr(1,2));
-            } else if(calender_info.substr(0,1) =="P"){
-                $("#dropdownMenuLink").text(nick_name + " 의 캘린더 " + calender_info.substr(1,2));
-            }
+            
+            calendar_name = $("#" + selected_calendar_id).text();
+            $("#dropdownMenuLink").text(calendar_name); 
         }
     })
 }
@@ -181,6 +205,13 @@ function clickedDayGetMemo(obj) {
 //달력 추가하기
 function addCalender() {
     let add_btn_checked = $('input[name="add-calender-group"]:checked').val();
+    let add_calendar_name = $("#calendar-name").val();
+
+    if (add_calendar_name == ""){
+        alert("캘린더 이름을 입력해주세요")
+        return;
+    }
+
     let is_private;
     if (add_btn_checked == 1) {
         is_private = 0;
@@ -188,7 +219,8 @@ function addCalender() {
         is_private = 1;
     }
     let doc = {
-        "isPrivate" : is_private
+        "isPrivate" : is_private,
+        "calendarName" : add_calendar_name
     }
     $.ajax({
         type: "POST",
@@ -204,9 +236,80 @@ function addCalender() {
         }
     })
 }
+//캘린더 삭제
+function deleteCalendar(obj){
+    let selected_check = $(obj).attr("value");
+
+    let delete_check = confirm("선택한 캘린더를 지우시겠습니까?")
+
+    if (delete_check){
+        $.ajax({
+            type: "DELETE",
+            url: `https://api.bbichul.shop/api/calendars/calendar?id=${selected_check}`,
+            success: function (response) {
+                sessionStorage.removeItem("rCheck");
+                sessionStorage.removeItem("calId")
+                window.location.reload();
+                alert(response);
+            }
+        })
+
+    }
+
+}
+//이름변경 버튼 조작
+function clickRenameButton(obj){
+    let rename_calendar_id = $(obj).attr("value")
+    let rename_button_id = $(obj).attr("id");
+    let rename_submit_id = "submit-rename-" + rename_calendar_id;
+    let rename_span = "rename-span-" + rename_calendar_id;
+    let rename_input = "rename-input-" + rename_calendar_id;
+    $("#"+rename_button_id).hide();
+    $("#"+rename_submit_id).removeClass("d-none")
+    $("#"+rename_span).hide();
+    $("#"+rename_input).removeClass("d-none")
+
+
+}
+//캘린더 이름 변경
+function submitRename(obj){
+    let rename_calendar_id = $(obj).attr("value")
+    let rename_span = "rename-span-" + rename_calendar_id
+    let rename_input = "rename-input-" + rename_calendar_id;
+
+    let before_name = $("#"+rename_span).text();
+    let new_name = $("#"+rename_input).val();
+
+    if (before_name == new_name){
+        alert("기존 캘린더 이름과 같습니다.")
+        return;
+    }else if(new_name == ""){
+        alert("공백 설정은 불가능합니다.")
+        return;
+    }
+
+    doc = {
+        "calendarId" : rename_calendar_id,
+        "calendarName" : new_name 
+    }
+
+    $.ajax({
+        type: "PATCH",
+        url: `https://api.bbichul.shop/api/calendars/calendar`,
+        contentType: "application/json",
+        data: JSON.stringify(doc),
+        success: function (response) {
+
+            window.location.reload();
+            alert(response);
+        }
+    })
+    
+}
+
 //선택한 캘린더로 세팅합니다.
 function setCalender(obj) {
-    console.log(selected_calendar_id);
+
     let selected_check = $(obj).attr("id");
     if (selected_calendar_id == selected_check) {
         alert("현재 선택 된 캘린더입니다.");
@@ -214,16 +317,10 @@ function setCalender(obj) {
     } else {
         selected_calendar_id = selected_check;
         sessionStorage.setItem("calId", selected_calendar_id);
-        let calender_info = $(obj).attr('value');
-        let private_or_team = calender_info.substr(0, 1);
-        let calender_num = calender_info.substr(1, 1);
-        if (private_or_team == 'T') {
-            $('#dropdownMenuLink').text(team_name + " 캘린더 " + calender_num);
-            alert(team_name + " 캘린더"+ calender_num+ "로 변경 되었습니다.");
-        } else if (private_or_team == 'P') {
-            $('#dropdownMenuLink').text(nick_name + " 캘린더 " + calender_num);
-            alert(nick_name + " 캘린더"+ calender_num+ "로 변경 되었습니다.");
-        }
+        let calender_name = $(obj).text();
+
+        $('#dropdownMenuLink').text(calender_name);
+        
         date = new Date();
         sessionStorage.setItem("date", date)
         renderCalendar();

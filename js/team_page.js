@@ -1,3 +1,11 @@
+//진입전 로그인 확인
+window.onpageshow = function (event) {
+    if (sessionStorage.getItem("token") == null) {
+        alert('로그인 해주세요')
+        location.href = "index.html";
+    }
+}
+
 // ajax 시 헤더 부분에 토큰 넣어주고 코드를 줄일 수 있다
 $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
     if(localStorage.getItem('token')) {
@@ -7,7 +15,7 @@ $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
 
 
 $(document).ready(function () {
-    teamCheck();
+    team_check();
     document.getElementById('team-name').readOnly = false;
     $("input[name=checked-team]").val('')
     /*    pieChartDraw();*/
@@ -45,7 +53,7 @@ function get_progressbar() {
 }
 
 // 팀 소속 여부 확인
-function teamCheck() {
+function team_check() {
     $.ajax({
         type: "GET",
         url: `https://api.bbichul.shop/api/teams`,
@@ -60,8 +68,8 @@ function teamCheck() {
                 $('#team').css('color', `whitesmoke`);
                 $('#team').css('font-size', `40px`);
                 $('#team').append(team)
-                checkstatus();
-                showtask()
+                check_status();
+                show_task()
             }
         }
     })
@@ -74,7 +82,7 @@ function hide_teamname() {
 }
 
 // 팀 만들기 기능
-function createTeam() {
+function create_team() {
     team = $('#team-name').val()
     let teamname = {teamname : team}
     // hidden input의 value로 중복확인 버튼을 눌렀는지 안눌렀는지 확인
@@ -96,8 +104,8 @@ function createTeam() {
                     $('.team-exist').show()
                     let team = response
                     $('#team').append(team)
-                    checkstatus();
-                    showtask();
+                    check_status();
+                    show_task();
                 }
             }
         })
@@ -126,8 +134,8 @@ function invite_team() {
                     $('.team-exist').show()
                     let team = `${invitename}`
                     $('#team').append(team)
-                    checkstatus();
-                    showtask()
+                    check_status();
+                    show_task()
                 } else if (response == '존재하지 않는 팀입니다. 팀 이름을 확인해주세요.') {
                     alert(response);
                 }
@@ -175,7 +183,7 @@ $('#create-team-close').on('click',function() {
 });
 
 /*to do list*/
-function showtask() {
+function show_task() {
     $.ajax({
         type: "GET",
         url: "https://api.bbichul.shop/api/teams/task",
@@ -185,28 +193,59 @@ function showtask() {
                 let task = response[i]['task']
                 let done = response[i]['done']
                 let id = response[i]['id']
-                makeListTask(task, done, id);
+                make_list(task, done, id);
             }
         }
     })
 }
 
 // 할일 화면에 띄우기
-function makeListTask(task, done, id) {
+function make_list(task, done, id) {
     //할 일이 아직 완료 상태가 아니면
     if (done == false) {
-        let tempHtml = `<div class='task'>${task}<i class='bi bi-trash-fill' onclick="deletetask('${id}')"></i><i class='bi bi-check-lg' onclick="changedone('${id}')"></i></div>`;
+        let tempHtml = `<div class='task'>${task}<i class='bi bi-trash-fill' onclick="delete_task('${id}')"><i class='bi bi-check-lg' onclick="change_done('${id}')"></i></i><i class='bi bi-pencil-fill' onclick="update_input('${id}','${task}')"></i></div>`;
         $(".notdone").append(tempHtml);
     } else { //할 일이 완료 상태면
-        let tempHtml = `<div class='task'>${task}<i class='bi bi-trash-fill' onclick="deletetask('${id}')"></i><i class='bi bi-check-lg' onclick="changedone('${id}')"></i></div>`;
+        let tempHtml = `<div class='task'>${task}<i class='bi bi-trash-fill' onclick="delete_task('${id}')"><i class='bi bi-check-lg' onclick="change_done('${id}')"></i></i><i class='bi bi-pencil-fill' onclick="update_input('${id}','${task}')"></i></div>`;
         $(".done").append(tempHtml);
     }
 }
 
+// to do list task 수정
+function update_input(id, task) {
+    value = id
+    $(".txt").val(task);
+    $('#taskinput').change(function () {
+        if ($(".txt").val() != "" && value != -1) {
+            let new_task = $(".txt").val();
+            update_task(id, new_task)
+        } else {
+            delete_task(id)
+        }
+        //입력 창 비우기
+        $(".txt").val("");
+    })
+}
+
+function update_task(id, new_task) {
+    let json = {id:id, task:new_task}
+    $.ajax({
+        type: "PUT",
+        url: `https://api.bbichul.shop/api/teams/task`,
+        contentType: "application/json",
+        data: JSON.stringify(json),
+        success: function () {
+            window.location.reload()
+        }
+    })
+}
+
+let value = -1
+
 // 내가 속한 팀 찾아 할일 저장하기
-$(document).ready(function () {
+$(function () {
     $('#taskinput').keydown(function (key) {
-        if (key.keyCode == 13) {
+        if (key.keyCode == 13 && $(".txt").val() != "" && value == -1) {
             let task = $(".txt").val();
             let teamtask = {task : task}
             $.ajax({
@@ -217,7 +256,7 @@ $(document).ready(function () {
                 success: function (response) {
                     let task = response['task']
                     let id = response['id']
-                    let temphtml = `<div class='task'>${task}<i class='bi bi-trash-fill' onclick="deletetask('${id}')"></i><i class='bi bi-check-lg' onclick="changedone('${id}')"></i></div>`
+                    let temphtml = `<div class='task'>${task}<i class='bi bi-trash-fill' onclick="delete_task('${id}')"></i><i class='bi bi-check-lg' onclick="change_done('${id}')"></i><i class='bi bi-pencil-fill' onclick="update_input('${id}', '${task}')"></i></div>`
                     $(".notdone").append(temphtml);
                 }
             });
@@ -229,7 +268,7 @@ $(document).ready(function () {
 
 
 // to do list 삭제 버튼
-function deletetask(id) {
+function delete_task(id) {
     let taskId = {id:id}
     $.ajax({
         type: "DELETE",
@@ -243,11 +282,11 @@ function deletetask(id) {
 }
 
 // 할 일을 완료했는지 안 했는지 상태 변경 및 저장
-function changedone(id) {
+function change_done(id) {
     let taskId = {id:id}
     $.ajax({
         type: "PUT",
-        url: `https://api.bbichul.shop/api/teams/task`,
+        url: `https://api.bbichul.shop/api/teams/tasks/status`,
         contentType: "application/json",
         data: JSON.stringify(taskId),
         success: function () {
@@ -257,7 +296,7 @@ function changedone(id) {
 }
 
 //팀원들의 출결 상태 불러오기
-function checkstatus() {
+function check_status() {
     let status = "check-in"
     $.ajax({
         type: "GET",
